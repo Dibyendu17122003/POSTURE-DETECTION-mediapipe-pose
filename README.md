@@ -1,10 +1,7 @@
 # Pose Detection and Bicep Curl Counter with MediaPipe
 
-## System Architecture and Workflow
-
-```mermaid
 flowchart TD
-    A([🚀 Start Application]) --> B[Initialize Video Capture<br>cv2.VideoCapture0]
+    A([🚀 Start Application]) --> B[Initialize Video Capture<br>cv2.VideoCapture(0)]
     B --> C[Configure MediaPipe Pose<br>min_detection_confidence=0.5<br>min_tracking_confidence=0.5]
     
     subgraph MainProcessingLoop [Real-time Processing Loop]
@@ -16,9 +13,9 @@ flowchart TD
         G -- Yes --> I[Extract Key Landmarks<br>#11 LEFT_SHOULDER<br>#13 LEFT_ELBOW<br>#15 LEFT_WRIST]
         
         I --> J[Calculate Elbow Angle<br>Using Vector Mathematics]
-        J --> K[Update Rep Counter State Machine]
+        J --> K[Update Rep Counter State Machine<br>(Stage Up/Down, Count Reps)]
         
-        K --> L[Render Visual Elements<br>Landmarks, Connections, Angles, UI]
+        K --> L[Render Visual Elements<br>Landmarks, Angles, UI, Rep Count]
         
         H --> M[Display Annotated Frame]
         L --> M
@@ -26,22 +23,22 @@ flowchart TD
     
     M --> N{User Pressed 'q' Key?}
     N -- No --> D
-    N -- Yes --> O[Release Resources<br>cap.release<br>cv2.destroyAllWindows]
+    N -- Yes --> O[Release Resources<br>cap.release()<br>cv2.destroyAllWindows()]
     O --> P([✅ Exit Application])
     
     %% Style definitions
     classDef startEnd fill:#1e8449,color:white,stroke:#145a32,stroke-width:2px
     classDef process fill:#3498db,color:white,stroke:#2c3e50
     classDef decision fill:#f39c12,color:black,stroke:#b9770e
-    classDef subgraph fill:#d6eaf8,stroke:#3498db,stroke-width:2px
+    classDef loopBox fill:#d6eaf8,stroke:#3498db,stroke-width:2px
     classDef io fill:#9b59b6,color:white,stroke:#6c3483
     
     class A,P startEnd
     class B,C,D,E,F,I,J,K,L,O process
     class G,N decision
-    class MainProcessingLoop subgraph
+    class MainProcessingLoop loopBox
     class M io
-```
+
 
 ## Project Metadata
 
